@@ -10,8 +10,13 @@ def EnumRunningProcesses():
         else:
             print(pinfo)
 
-def RunningThreadsInProcess(proc):
-    return
+def RunningThreadsInProcess(pid):
+    proc = psutil.Process(pid)
+    threads = proc.threads()
+    numThreads = proc.num_threads()
+    for thread in threads:
+        print(thread)
+    print('Number of threads: {}'.format(numThreads))
 
 def LoadedModulesInProcess(proc):
     return
@@ -24,11 +29,15 @@ def MemoryInfo():
 
 def main():
     parser = argparse.ArgumentParser(description="Defense Against the Dark Arts!")
-    parser.add_argument("-p", "--enum_proc", help="Enumerate all the running processes", action="store_true")
+    parser.add_argument("-p", "--enum_proc", help="enumerate all the running processes", action="store_true")
+    parser.add_argument("-t", "--threads", type=int, metavar="pid", help="list all running threads within process boundry")
 
     args = parser.parse_args()
     if args.enum_proc:
         EnumRunningProcesses()
+    elif args.threads:
+        RunningThreadsInProcess(args.threads)
+
     
 if __name__ == "__main__":
     main()
