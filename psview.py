@@ -1,6 +1,7 @@
+#!/usr/bin/python
 import argparse
 import psutil
-import os
+import subprocess
 
 def EnumRunningProcesses():
     for proc in psutil.process_iter():
@@ -21,10 +22,10 @@ def RunningThreadsInProcess(pid):
     print('Number of threads: {}'.format(numThreads))
 
 def LoadedModulesInProcess(pid):
-    proc = psutil.Process(pid)
-    mem_map = proc.memory_maps()
-    for map in mem_map:
-        print(map)
+    p1 = subprocess.Popen(['lsof', '-p', str(pid), '-w'], stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(['grep', '\.so'], stdin=p1.stdout)
+    p1.stdout.close()
+    p2.communicate()
 
 def ExecutablePagesInProcess(proc):
     return
