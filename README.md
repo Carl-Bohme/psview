@@ -13,13 +13,10 @@ Things you will need to install for this program.
 **Note:** This tool is only supported on Linux/Unix operating systems.
 
 ### Installing
-Activate virtual environment
-```
-source bin/activate
-```
 Run the following command
 ```
-pip install -r requirements.txt
+chmod +x install.sh
+./install.sh
 ```
 
 ## Usage
