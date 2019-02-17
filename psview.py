@@ -27,19 +27,22 @@ def LoadedModulesInProcess(pid):
     p1.stdout.close()
     p2.communicate()
 
-def ExecutablePagesInProcess(proc):
-    return
+def ExecutablePagesInProcess(pid):
+    p1 = subprocess.Popen(['pmap', str(pid)], stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(['grep', '\-x\-'], stdin=p1.stdout)
+    p1.stdout.close()
+    p2.communicate()
 
 def MemoryInfo(pid):
-    proc = psutil.Process(pid)
-    print(proc.memory_info())
+    #undefined
 
 def main():
     parser = argparse.ArgumentParser(description="Defense Against the Dark Arts!")
     parser.add_argument("-p", "--enum_proc", help="enumerate all the running processes", action="store_true")
     parser.add_argument("-t", "--threads", type=int, metavar="pid", help="list all running threads within process boundry")
     parser.add_argument("-l", "--loaded_modules", type=int, metavar="pid", help="View loaded modules inside a process")
-    parser.add_argument("-m", "--mem_info", type=int, metavar="pid", help="Read the memory")
+    parser.add_argument("-e", "--executable_pages", type=int, metavar="pid", help="Pages of memory with executable bit set")
+    parser.add_argument("-m", "--mem_info", type=int, metavar="pid", help="Read actual bits in memory of a process")
 
     args = parser.parse_args()
     if args.enum_proc:
@@ -48,6 +51,8 @@ def main():
         RunningThreadsInProcess(args.threads)
     elif args.loaded_modules:
         LoadedModulesInProcess(args.loaded_modules)
+    elif args.executable_pages:
+        ExecutablePagesInProcess(args.executable_pages)
     elif args.mem_info:
         MemoryInfo(args.mem_info)
 
