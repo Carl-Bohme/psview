@@ -34,7 +34,10 @@ def ExecutablePagesInProcess(pid):
     p2.communicate()
 
 def MemoryInfo(pid):
-    #undefined
+    p1 = subprocess.Popen(['gcore', '-a', str(pid)], stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(['xxd', 'core.{}'.format(pid)], stdin=p1.stdout)
+    p1.stdout.close()
+    p2.communicate()
 
 def main():
     parser = argparse.ArgumentParser(description="Defense Against the Dark Arts!")
