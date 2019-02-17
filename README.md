@@ -10,7 +10,7 @@ Things you will need to install for this program.
 - psutils
 - Linux/Unix
 
-**Note:** This tool is only supported on Linux/Unix operating system.
+**Note:** This tool is only supported on Linux/Unix operating systems.
 
 ### Installing
 Activate virtual environment
